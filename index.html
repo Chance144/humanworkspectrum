@@ -73,9 +73,28 @@
                 <a href="https://x.com/andrewwperkins" class="social-icon" target="_blank"
                     aria-label="X (Twitter)">X</a>
                 <a href="https://njump.me/andrewwperkins" class="social-icon" target="_blank" aria-label="Nostr">NO</a>
+                <button id="donate-btn" class="social-icon"
+                    style="width: auto; padding: 0 1rem; border-radius: 999px; font-weight: 600;"
+                    aria-label="Donate Bitcoin">
+                    Donate BTC
+                </button>
             </div>
         </footer>
     </main>
+
+    <!-- Donation Modal -->
+    <div id="donation-modal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3 style="color: var(--color-primary); margin-bottom: 1rem;">Donate via Lightning</h3>
+            <p style="font-size: 0.9rem; margin-bottom: 1rem;">Scan the QR code to support the project:</p>
+
+            <div class="qr-box" style="background: white; padding: 1rem; border-radius: 0.5rem; display: inline-block;">
+                <img src="assets/images/lightning_qr.svg" alt="Bitcoin Lightning QR Code"
+                    style="width: 200px; height: 200px; display: block;">
+            </div>
+        </div>
+    </div>
 
     <script src="assets/js/main.js"></script>
 </body>
