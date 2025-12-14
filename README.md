@@ -1,0 +1,28 @@
+# Human Work Spectrum
+
+This is the official repository and website for the book **"The Human Work Spectrum"**.
+
+## 📖 About the Project
+This website hosts the digital presence for the book, offering:
+- A direct download of the book PDF.
+- An overview of the core concepts (The Four Zones of Value).
+- Information for students, professionals, and educators.
+
+## 🔗 Live Website
+You can view the live website here:
+**[https://Chance144.github.io/humanworkspectrum/](https://Chance144.github.io/humanworkspectrum/)**
+
+## 📂 Project Structure
+- **`index.html`**: The main entry point for the website.
+- **`public/`**: Stores the book PDF (`TheHumanWorkSpectrum.pdf`) and other static downloads.
+- **`assets/`**: Contains styles (`css`), scripts (`js`), and images.
+- **`content/`**: Original text files used to populate the website content.
+
+## 🛠️ Local Development
+To run this project locally:
+1. Clone the repository.
+2. Open `index.html` in any web browser.
+3. No build steps or complex dependencies required—just standard HTML/CSS.
+
+---
+&copy; 2025 Human Work Spectrum. All rights reserved.
