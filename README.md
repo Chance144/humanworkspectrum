@@ -1,6 +1,6 @@
-# Human Work Spectrum
+# After THE GRIND
 
-This is the official repository and website for the book **"The Human Work Spectrum"**.
+This is the official repository and website for the book **"After THE GRIND: Rethinking Your Business Career in the Age of Artificial Intelligence and Robotics"** by Dr. Andrew Perkins.
 
 ## 📖 About the Project
 This website hosts the digital presence for the book, offering:
@@ -14,7 +14,7 @@ You can view the live website here:
 
 ## 📂 Project Structure
 - **`index.html`**: The main entry point for the website.
-- **`public/`**: Stores the book PDF (`TheHumanWorkSpectrum.pdf`) and other static downloads.
+- **`public/`**: Stores the book PDF and other static downloads.
 - **`assets/`**: Contains styles (`css`), scripts (`js`), and images.
 - **`content/`**: Original text files used to populate the website content.
 
@@ -25,4 +25,4 @@ To run this project locally:
 3. No build steps or complex dependencies required—just standard HTML/CSS.
 
 ---
-&copy; 2025 Human Work Spectrum. All rights reserved.
+&copy; 2026 Dr. Andrew Perkins. All rights reserved.
