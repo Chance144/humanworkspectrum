@@ -78,6 +78,25 @@ body {
     gap: 1rem;
 }
 
+.cta-row {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    width: 100%;
+}
+
+.btn-donate {
+    background-color: #f7931a;
+    color: white;
+    box-shadow: 0 4px 6px -1px rgba(247, 147, 26, 0.5);
+}
+
+.btn-donate:hover {
+    background-color: #e68305;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(247, 147, 26, 0.5);
+}
+
 /* Content Sections */
 section {
     margin: 4rem 0;
