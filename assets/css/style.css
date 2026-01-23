@@ -71,6 +71,19 @@ body {
     box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.5);
 }
 
+.amazon-link {
+    display: block;
+    margin-top: 1rem;
+    color: #94a3b8;
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+}
+
+.amazon-link:hover {
+    color: var(--color-primary);
+}
+
 /* Content Sections */
 section {
     margin: 4rem 0;
