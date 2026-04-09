@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Archetype — Human Work Spectrum</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+</head>
+<body>
+
+<nav>
+  <a class="nav-brand" href="../index.html">Human Work <span>Spectrum</span></a>
+  <div class="nav-links">
+    <a href="../archetypes.html" class="hide-sm">All Archetypes</a>
+    <a href="../quiz.html" class="nav-cta">Take the Assessment</a>
+  </div>
+</nav>
+
+<div class="archetype-hero">
+  <div class="container-sm">
+    <span id="ap-badge" class="domain-badge"></span>
+    <h1 id="ap-name"></h1>
+    <div class="tagline" id="ap-tagline"></div>
+    <p id="ap-desc"></p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container-sm">
+
+    <div class="detail-grid">
+      <div class="detail-card">
+        <h3>What They Protect</h3>
+        <ul id="ap-protects"></ul>
+      </div>
+      <div class="detail-card">
+        <h3>What They Produce</h3>
+        <ul id="ap-produces"></ul>
+      </div>
+      <div class="detail-card" style="grid-column: 1 / -1;">
+        <h3>What They Do</h3>
+        <ul id="ap-does"></ul>
+      </div>
+    </div>
+
+    <div class="detail-card" style="margin-top: 1.5rem; border-left: 4px solid var(--blue);">
+      <h3>Distinguishing Trait</h3>
+      <p id="ap-trait" style="font-size: 0.95rem; color: var(--text); line-height: 1.7; margin-top: 0.5rem;"></p>
+    </div>
+
+    <div class="action-steps">
+      <h3>Action Plan: How to Excel as This Archetype</h3>
+      <div id="ap-steps"></div>
+    </div>
+
+    <div style="margin-top: 2rem; padding: 1.5rem; background: var(--sky); border-radius: var(--radius);">
+      <h3 style="font-size: 0.85rem; font-weight: 700; color: var(--navy); margin-bottom: 0.75rem;">Related Archetypes</h3>
+      <div id="ap-related"></div>
+    </div>
+
+    <div style="text-align: center; margin-top: 3rem;">
+      <a href="../quiz.html" class="btn btn-primary">Take the Assessment to See Your Archetypes →</a>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <p>Human Work Spectrum &mdash; Based on <em>After the Grind</em> by Andrew Perkins &nbsp;|&nbsp; <a href="https://afterthegrind.ai" target="_blank">afterthegrind.ai</a></p>
+</footer>
+
+<script src="../js/archetype-page.js"></script>
+<script>
+// PAGE DATA — override per archetype
+window.ARCHETYPE_PAGE = {
+  "name": "The Translator",
+  "domain": "Interpretive",
+  "badge_class": "badge-interpretive",
+  "tagline": "What do they actually want us to do?",
+  "desc": "The Translator is the first line of defense against AI overconfidence. You don't just pass outputs through \u2014 you interpret them. You catch bias, surface blind spots, and rephrase information so different audiences can actually act on it. In an environment where AI can generate a hundred confident answers in seconds, the Translator is the one asking: but which of these is actually right?",
+  "protects": [
+    "Understanding",
+    "Decision quality"
+  ],
+  "produces": [
+    "Clarity",
+    "Actionable meaning",
+    "Crisp recommendations"
+  ],
+  "does": [
+    "Interprets AI outputs rather than simply forwarding them",
+    "Rephrases complex information for different audiences",
+    "Flags where AI confidence is unearned \u2014 bias, hallucination, missing context",
+    "Shapes how decisions are framed before they're made",
+    "Ensures that the question being answered is the right question"
+  ],
+  "trait": "Does not confuse fluency with truth. The Translator treats AI confidence as a signal to verify, not a reason to stop thinking. They understand that a well-formatted, well-sourced answer can still be wrong \u2014 and they know what to look for.",
+  "steps": [
+    {
+      "title": "Build your verification practice",
+      "body": "Before sharing any AI-generated output, ask three questions: What assumption is this based on? What would be missing if this were wrong? Who is the audience, and what do they need to be able to do with this?"
+    },
+    {
+      "title": "Practice audience-specific translation",
+      "body": "Take one concept from your work and practice explaining it three different ways: for a technical expert, for a senior leader, and for someone outside the field. The differences reveal your translation skill."
+    },
+    {
+      "title": "Develop your bias radar",
+      "body": "Study common AI failure modes: recency bias, representation bias, confident hallucination. The Translator who knows what to look for catches errors the AI will never flag itself."
+    },
+    {
+      "title": "Set your AI boundary",
+      "body": "AI can draft, summarize, and synthesize. You decide what actually gets communicated \u2014 including the caveats, the uncertainties, and the context that no algorithm will add on its own."
+    }
+  ],
+  "related": [
+    {
+      "name": "The Sensemaker",
+      "url": "sensemaker.html"
+    },
+    {
+      "name": "The Signal Architect",
+      "url": "signal-architect.html"
+    },
+    {
+      "name": "The Liaison",
+      "url": "liaison.html"
+    }
+  ]
+};
+</script>
+</body>
+</html>

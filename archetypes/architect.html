@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Archetype — Human Work Spectrum</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+</head>
+<body>
+
+<nav>
+  <a class="nav-brand" href="../index.html">Human Work <span>Spectrum</span></a>
+  <div class="nav-links">
+    <a href="../archetypes.html" class="hide-sm">All Archetypes</a>
+    <a href="../quiz.html" class="nav-cta">Take the Assessment</a>
+  </div>
+</nav>
+
+<div class="archetype-hero">
+  <div class="container-sm">
+    <span id="ap-badge" class="domain-badge"></span>
+    <h1 id="ap-name"></h1>
+    <div class="tagline" id="ap-tagline"></div>
+    <p id="ap-desc"></p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container-sm">
+
+    <div class="detail-grid">
+      <div class="detail-card">
+        <h3>What They Protect</h3>
+        <ul id="ap-protects"></ul>
+      </div>
+      <div class="detail-card">
+        <h3>What They Produce</h3>
+        <ul id="ap-produces"></ul>
+      </div>
+      <div class="detail-card" style="grid-column: 1 / -1;">
+        <h3>What They Do</h3>
+        <ul id="ap-does"></ul>
+      </div>
+    </div>
+
+    <div class="detail-card" style="margin-top: 1.5rem; border-left: 4px solid var(--blue);">
+      <h3>Distinguishing Trait</h3>
+      <p id="ap-trait" style="font-size: 0.95rem; color: var(--text); line-height: 1.7; margin-top: 0.5rem;"></p>
+    </div>
+
+    <div class="action-steps">
+      <h3>Action Plan: How to Excel as This Archetype</h3>
+      <div id="ap-steps"></div>
+    </div>
+
+    <div style="margin-top: 2rem; padding: 1.5rem; background: var(--sky); border-radius: var(--radius);">
+      <h3 style="font-size: 0.85rem; font-weight: 700; color: var(--navy); margin-bottom: 0.75rem;">Related Archetypes</h3>
+      <div id="ap-related"></div>
+    </div>
+
+    <div style="text-align: center; margin-top: 3rem;">
+      <a href="../quiz.html" class="btn btn-primary">Take the Assessment to See Your Archetypes →</a>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <p>Human Work Spectrum &mdash; Based on <em>After the Grind</em> by Andrew Perkins &nbsp;|&nbsp; <a href="https://afterthegrind.ai" target="_blank">afterthegrind.ai</a></p>
+</footer>
+
+<script src="../js/archetype-page.js"></script>
+<script>
+// PAGE DATA — override per archetype
+window.ARCHETYPE_PAGE = {
+  "name": "The Architect",
+  "domain": "Integrative",
+  "badge_class": "badge-integrative",
+  "tagline": "This workflow isn't broken. It's undesigned.",
+  "desc": "The Architect sees systems where others see tools. You design the workflows, guardrails, and governance structures that make AI adoption responsible and durable. You think about edge cases before they happen, embed ethics into structure rather than training modules, and build operating models that scale without losing integrity. Every AI integration is a conscious design act \u2014 not a default.",
+  "protects": [
+    "Integrity",
+    "Ethics",
+    "Durability"
+  ],
+  "produces": [
+    "Systems",
+    "Processes",
+    "Governance",
+    "Reliable operating models"
+  ],
+  "does": [
+    "Designs workflows that respect human limits and appropriate AI use",
+    "Integrates tools so they complement rather than conflict with each other",
+    "Embeds ethical constraints into structure \u2014 not just policy documents",
+    "Plans for edge cases and failure modes before they occur",
+    "Determines what AI can decide autonomously vs. what requires human review"
+  ],
+  "trait": "Where others see a tool, the Architect sees a system. Where others see adoption, the Architect sees architecture. They ask not 'does this tool work?' but 'what does it mean that we're using this?' Every integration is a design decision with downstream consequences.",
+  "steps": [
+    {
+      "title": "Map your current system before adding to it",
+      "body": "Before deploying any new tool, document the workflow it enters. What are the inputs, outputs, decision points, and failure modes? You cannot design a good integration without understanding the system it joins."
+    },
+    {
+      "title": "Build governance into structure",
+      "body": "Identify the decisions that should never be made by AI alone and build the review checkpoints explicitly into the workflow. Ethics embedded in structure outlasts ethics delivered in training."
+    },
+    {
+      "title": "Practice failure-mode thinking",
+      "body": "For every AI integration you design, ask: what are the three most likely failure modes? What happens if the tool is wrong? Who is responsible for catching it?"
+    },
+    {
+      "title": "Set your AI boundary",
+      "body": "AI can execute within the systems you build. You design the system \u2014 including where AI is explicitly not allowed to decide, what triggers human review, and how accountability is structured."
+    }
+  ],
+  "related": [
+    {
+      "name": "The Orchestrator",
+      "url": "orchestrator.html"
+    },
+    {
+      "name": "The Signal Architect",
+      "url": "signal-architect.html"
+    },
+    {
+      "name": "The Reflective Futurist",
+      "url": "futurist.html"
+    }
+  ]
+};
+</script>
+</body>
+</html>

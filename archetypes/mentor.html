@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Archetype — Human Work Spectrum</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+</head>
+<body>
+
+<nav>
+  <a class="nav-brand" href="../index.html">Human Work <span>Spectrum</span></a>
+  <div class="nav-links">
+    <a href="../archetypes.html" class="hide-sm">All Archetypes</a>
+    <a href="../quiz.html" class="nav-cta">Take the Assessment</a>
+  </div>
+</nav>
+
+<div class="archetype-hero">
+  <div class="container-sm">
+    <span id="ap-badge" class="domain-badge"></span>
+    <h1 id="ap-name"></h1>
+    <div class="tagline" id="ap-tagline"></div>
+    <p id="ap-desc"></p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container-sm">
+
+    <div class="detail-grid">
+      <div class="detail-card">
+        <h3>What They Protect</h3>
+        <ul id="ap-protects"></ul>
+      </div>
+      <div class="detail-card">
+        <h3>What They Produce</h3>
+        <ul id="ap-produces"></ul>
+      </div>
+      <div class="detail-card" style="grid-column: 1 / -1;">
+        <h3>What They Do</h3>
+        <ul id="ap-does"></ul>
+      </div>
+    </div>
+
+    <div class="detail-card" style="margin-top: 1.5rem; border-left: 4px solid var(--blue);">
+      <h3>Distinguishing Trait</h3>
+      <p id="ap-trait" style="font-size: 0.95rem; color: var(--text); line-height: 1.7; margin-top: 0.5rem;"></p>
+    </div>
+
+    <div class="action-steps">
+      <h3>Action Plan: How to Excel as This Archetype</h3>
+      <div id="ap-steps"></div>
+    </div>
+
+    <div style="margin-top: 2rem; padding: 1.5rem; background: var(--sky); border-radius: var(--radius);">
+      <h3 style="font-size: 0.85rem; font-weight: 700; color: var(--navy); margin-bottom: 0.75rem;">Related Archetypes</h3>
+      <div id="ap-related"></div>
+    </div>
+
+    <div style="text-align: center; margin-top: 3rem;">
+      <a href="../quiz.html" class="btn btn-primary">Take the Assessment to See Your Archetypes →</a>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <p>Human Work Spectrum &mdash; Based on <em>After the Grind</em> by Andrew Perkins &nbsp;|&nbsp; <a href="https://afterthegrind.ai" target="_blank">afterthegrind.ai</a></p>
+</footer>
+
+<script src="../js/archetype-page.js"></script>
+<script>
+// PAGE DATA — override per archetype
+window.ARCHETYPE_PAGE = {
+  "name": "The Mentor of Mentors",
+  "domain": "Interpersonal",
+  "badge_class": "badge-interpersonal",
+  "tagline": "Tell me what you're really worried about.",
+  "desc": "The Mentor of Mentors builds human capability at scale. Your gift is not answers \u2014 it is capacity. You grow others' judgment, adaptability, and learning habits, teaching people how to learn rather than just what to know. In a world where AI provides instant answers, you develop the human ability to know which answers to trust \u2014 and to generate better questions in the first place.",
+  "protects": [
+    "Growth culture",
+    "Confidence",
+    "Resilience"
+  ],
+  "produces": [
+    "Talent development",
+    "Feedback loops",
+    "Leadership capacity"
+  ],
+  "does": [
+    "Develops others' capacity for judgment and discernment \u2014 not just skills",
+    "Teaches people how to learn, not just what to do",
+    "Creates feedback loops that build learning agility over time",
+    "Shapes learning networks and mentoring relationships at scale",
+    "Models reflective and ethical leadership visibly"
+  ],
+  "trait": "Their gift is not answers \u2014 it is capacity. The Mentor of Mentors builds a culture of growth, not just individual coaching relationships. They are defined by the people they develop more than by their own output.",
+  "steps": [
+    {
+      "title": "End every development conversation with a learning commitment",
+      "body": "Close every coaching or mentoring conversation with two questions: What will you try? And how will you know if it worked? This turns conversations into experiments and builds the habit of reflection."
+    },
+    {
+      "title": "Develop your own learning agility",
+      "body": "The Mentor of Mentors who stops growing becomes less useful over time. Invest in your own continued development \u2014 not just in your area of expertise, but in how you learn. Model the behavior you're developing in others."
+    },
+    {
+      "title": "Build psychological safety deliberately",
+      "body": "Create spaces \u2014 in meetings, in 1:1s, in team norms \u2014 where people can share work-in-progress without judgment. Learning requires risk. Risk requires safety. The Mentor of Mentors builds the conditions for both."
+    },
+    {
+      "title": "Set your AI boundary",
+      "body": "AI can provide feedback on documents, flag skill gaps in assessments, and recommend learning resources. You provide feedback on judgment, growth trajectory, and the person's developing sense of their own professional identity. That work is not delegable."
+    }
+  ],
+  "related": [
+    {
+      "name": "The Liaison",
+      "url": "liaison.html"
+    },
+    {
+      "name": "The Narrative Carrier",
+      "url": "narrative.html"
+    },
+    {
+      "name": "The Sensemaker",
+      "url": "sensemaker.html"
+    }
+  ]
+};
+</script>
+</body>
+</html>

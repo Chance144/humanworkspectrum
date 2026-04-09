@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Results — Human Work Spectrum</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+<nav>
+  <a class="nav-brand" href="index.html">Human Work <span>Spectrum</span></a>
+  <div class="nav-links">
+    <a href="quiz.html">Retake</a>
+    <a href="archetypes.html" class="hide-sm">All Archetypes</a>
+  </div>
+</nav>
+
+<div class="results-hero">
+  <div id="results-eyebrow" style="font-size:0.8rem; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color: var(--blue-lt); margin-bottom: 0.75rem;">Your Results</div>
+  <h1 id="results-headline">You are...</h1>
+  <p id="results-sub" style="color: rgba(255,255,255,0.7); max-width: 520px; margin: 0.75rem auto 0; font-size: 0.95rem;"></p>
+</div>
+
+<section class="section">
+  <div class="container">
+
+    <!-- RADAR CHART -->
+    <div style="max-width: 360px; margin: 0 auto 3rem;">
+      <canvas id="radarChart"></canvas>
+    </div>
+
+    <!-- TOP ARCHETYPES -->
+    <div class="section-label" style="text-align:center; margin-bottom: 1.5rem;">Your Top Archetypes</div>
+    <div id="results-cards" class="results-archetypes"></div>
+
+    <!-- 4I BREAKDOWN -->
+    <div style="margin-top: 3rem;">
+      <div class="section-label" style="margin-bottom: 1rem;">Your 4I Profile</div>
+      <div id="domain-bars" style="display: flex; flex-direction: column; gap: 1rem; max-width: 560px;"></div>
+    </div>
+
+    <!-- NEXT STEPS -->
+    <div style="margin-top: 3.5rem; background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 2rem;">
+      <h3 style="font-size: 1rem; font-weight: 700; color: var(--navy); margin-bottom: 1.25rem;">Your 4-Step Personal Rebuild</h3>
+      <div id="rebuild-steps"></div>
+    </div>
+
+    <!-- CTA -->
+    <div style="text-align: center; margin-top: 3rem;">
+      <p style="color: var(--slate); font-size: 0.9rem; margin-bottom: 1.25rem;">Want to go deeper? The full framework is in the book.</p>
+      <a href="https://www.amazon.com/dp/B0GHT7DN7F" target="_blank" class="btn btn-primary" style="margin-right: 0.75rem;">Get the Book →</a>
+      <a href="quiz.html" class="btn" style="background: var(--border); color: var(--slate);">Retake Assessment</a>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <p>Human Work Spectrum &mdash; Based on <em>After the Grind</em> by Andrew Perkins &nbsp;|&nbsp; <a href="https://afterthegrind.ai" target="_blank">afterthegrind.ai</a></p>
+</footer>
+
+<script>
+const ARCHETYPE_DATA = {
+  liaison: {
+    name: "The Liaison",
+    domain: "interpersonal",
+    tagline: "I'm not the expert, but I can connect the experts.",
+    desc: "You are the connective tissue of your organization. You build the bridges between technical and non-technical worlds, clarify intent before work begins, and protect trust across every handoff. In a world full of AI outputs, you ensure the humans involved stay aligned.",
+    skills: ["Empathic listening", "Stakeholder mapping", "Translational communication", "Relationship stewardship"],
+    habits: ["Weekly 1:1 check-ins with cross-functional peers", "Before any project, identify every stakeholder who needs to trust the outcome"],
+    ai_boundary: "Let AI draft communications — but you write the relationship strategy. Never delegate the trust-building to a tool.",
+    url: "archetypes/liaison.html",
+    badge: "badge-interpersonal",
+  },
+  bridge_builder: {
+    name: "The Bridge Builder",
+    domain: "integrative",
+    tagline: "The best idea wins only after people can understand each other.",
+    desc: "You thrive at the intersection of disciplines. Where others see silos, you see latent connections. You integrate different mental models, vocabularies, and priorities into one workable approach — and you unlock innovation that neither side could reach alone.",
+    skills: ["Systems thinking", "Cross-disciplinary synthesis", "Conceptual mapping", "Integrative reasoning"],
+    habits: ["Read one thing per week from a field outside your own", "When in a cross-functional meeting, ask: what framework is each side using?"],
+    ai_boundary: "AI can surface connections between datasets. You decide which connections are meaningful and which are noise.",
+    url: "archetypes/bridge-builder.html",
+    badge: "badge-integrative",
+  },
+  translator: {
+    name: "The Translator",
+    domain: "interpretive",
+    tagline: "What do they actually want us to do?",
+    desc: "You are the first line of defense against AI overconfidence. Where others pass outputs through, you interpret them — catching bias, surfacing blind spots, and rephrasing information so different audiences can actually act on it. Fluency is not the same as truth, and you know the difference.",
+    skills: ["Audience analysis", "Information curation", "Bias detection", "Crisp recommendation writing"],
+    habits: ["Before sharing any AI output, ask: what would be missing if this were wrong?", "Practice translating the same idea for three different audiences"],
+    ai_boundary: "AI can draft. You interpret, validate, and make the call on what gets communicated.",
+    url: "archetypes/translator.html",
+    badge: "badge-interpretive",
+  },
+  architect: {
+    name: "The Architect",
+    domain: "integrative",
+    tagline: "This workflow isn't broken. It's undesigned.",
+    desc: "You see systems where others see tools. You design the workflows, guardrails, and governance structures that make AI adoption responsible and durable. You think about edge cases before they happen, embed ethics into structure, and build operating models that scale without losing integrity.",
+    skills: ["Workflow design", "Systems integration", "Risk architecture", "Governance design"],
+    habits: ["When evaluating a new tool, ask: what breaks if this tool fails?", "Map every AI integration as a conscious design decision, not a default"],
+    ai_boundary: "AI can execute within the system. You design the system — including where AI should not be allowed to decide.",
+    url: "archetypes/architect.html",
+    badge: "badge-integrative",
+  },
+  orchestrator: {
+    name: "The Orchestrator",
+    domain: "integrative",
+    tagline: "No one is behind. We're just out of sequence.",
+    desc: "You produce flow. You coordinate humans and tools in the right sequence, allocate capability intelligently, and manage the human side of hybrid work — trust, energy, psychological safety, and timing. Where others manage tasks, you manage rhythm.",
+    skills: ["Capability allocation", "Sequencing and dependency mapping", "Hybrid team management", "Psychological safety maintenance"],
+    habits: ["Before a project kicks off, map: what needs to happen first for everything else to work?", "Weekly check: who is fatigued, and what can be redistributed?"],
+    ai_boundary: "AI can track task status. You decide the sequence, the pacing, and who carries what.",
+    url: "archetypes/orchestrator.html",
+    badge: "badge-integrative",
+  },
+  sensemaker: {
+    name: "The Sensemaker",
+    domain: "interpretive",
+    tagline: "The AI summary is confident. But is it right?",
+    desc: "You are the cognitive ballast that keeps teams from drifting. You create space for thinking, surface invisible assumptions, and ground decisions in values and context — not just data. You ask the questions everyone else skips because the output looks clean.",
+    skills: ["Critical interpretation", "Assumption surfacing", "First principles reasoning", "Judgment under uncertainty"],
+    habits: ["Before any team decision, pause and name the assumptions being made", "Weekly: what output did I accept this week without really questioning it?"],
+    ai_boundary: "AI generates answers. You generate the right questions — and you decide which answers are worth acting on.",
+    url: "archetypes/sensemaker.html",
+    badge: "badge-interpretive",
+  },
+  mentor: {
+    name: "The Mentor of Mentors",
+    domain: "interpersonal",
+    tagline: "Tell me what you're really worried about.",
+    desc: "Your gift is not answers — it is capacity. You build people's judgment, adaptability, and learning habits. You teach people how to learn, not just what to know. In a world where AI produces answers instantly, you develop the human ability to know which answers to trust.",
+    skills: ["Coaching and inquiry", "Learning agility development", "Feedback loop design", "Psychological safety creation"],
+    habits: ["End every mentoring conversation with: what will you try, and how will you know if it worked?", "Invest in your own continued learning — mentors who stop growing stop being useful"],
+    ai_boundary: "AI can give feedback on a document. You give feedback on a person's judgment and growth trajectory.",
+    url: "archetypes/mentor.html",
+    badge: "badge-interpersonal",
+  },
+  futurist: {
+    name: "The Reflective Futurist",
+    domain: "imaginative",
+    tagline: "Before we build this, let's ask what it creates.",
+    desc: "You see what others miss by looking further out. You map second and third-order consequences, imagine multiple futures, and ask the uncomfortable questions before decisions harden. You anticipate without arrogance and imagine without detachment — grounding foresight in responsibility.",
+    skills: ["Scenario thinking", "Second-order effects analysis", "Weak signal detection", "Long-horizon consequence mapping"],
+    habits: ["When evaluating any major decision, ask: what does this create in three years if everyone does it?", "Weekly: what is the one thing no one on my team is talking about that matters most?"],
+    ai_boundary: "AI can extrapolate trends. You ask whether those trends are worth following — and what they cost.",
+    url: "archetypes/futurist.html",
+    badge: "badge-imaginative",
+  },
+  narrative: {
+    name: "The Narrative Carrier",
+    domain: "interpersonal",
+    tagline: "This change needs a story, not a memo.",
+    desc: "You hold the meaning. You articulate the story beneath the data — why we're doing this, who we are, what we stand for. During organizational change, when people lose the thread of purpose, you're the one who finds it again and brings it back into the room.",
+    skills: ["Narrative development", "Values articulation", "Cultural coherence maintenance", "Cross-boundary communication"],
+    habits: ["Before any major communication, ask: what's the story under this message?", "Periodically map what the organization's narrative actually says about its values — not what leadership claims"],
+    ai_boundary: "AI can write the memo. You carry the meaning the memo can't capture.",
+    url: "archetypes/narrative.html",
+    badge: "badge-interpersonal",
+  },
+  signal_architect: {
+    name: "The Signal Architect",
+    domain: "interpretive",
+    tagline: "The dashboard says everything, so it says nothing.",
+    desc: "You treat attention as the scarcest resource. You design information environments that surface what's true and important — and filter out what's loud but irrelevant. You understand that information design is decision design, and that what you choose NOT to show is as important as what you show.",
+    skills: ["Information architecture", "Dashboard and reporting design", "Signal curation", "Bias and noise detection"],
+    habits: ["Quarterly: audit your own dashboards and remove anything no one uses to make decisions", "Before designing any report, ask: what decision does this need to enable?"],
+    ai_boundary: "AI can generate data visualizations. You decide what gets measured, what gets shown, and what gets acted on.",
+    url: "archetypes/signal-architect.html",
+    badge: "badge-interpretive",
+  },
+};
+
+const DOMAIN_LABELS = ["Interpretive", "Integrative", "Interpersonal", "Imaginative"];
+const DOMAIN_COLORS = ["rgba(37,99,235,0.7)", "rgba(13,148,136,0.7)", "rgba(124,58,237,0.7)", "rgba(217,119,6,0.7)"];
+const DOMAIN_BORDERS = ["#2563eb", "#0d9488", "#7c3aed", "#d97706"];
+
+function getParam(key) {
+  return new URLSearchParams(window.location.search).get(key);
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  const topKeys = (getParam('top') || '').split(',').filter(Boolean);
+  const scoresRaw = (getParam('scores') || '').split(',').map(Number);
+  const domainsRaw = (getParam('domains') || '0,0,0,0').split(',').map(Number);
+
+  if (!topKeys.length) {
+    document.getElementById('results-headline').textContent = "No results found.";
+    document.getElementById('results-sub').textContent = "Please take the assessment first.";
+    return;
+  }
+
+  const primary = ARCHETYPE_DATA[topKeys[0]];
+  document.getElementById('results-headline').textContent = primary ? `You are ${primary.name}` : "Your results";
+  document.getElementById('results-sub').textContent = primary ? `Your primary archetype, with ${topKeys.length > 1 ? (topKeys.length - 1) + ' supporting archetype' + (topKeys.length > 2 ? 's' : '') : 'strong focus'} identified.` : '';
+
+  // Radar chart
+  const maxVal = Math.max(...domainsRaw) || 1;
+  const normalized = domainsRaw.map(v => Math.round((v / maxVal) * 100));
+  new Chart(document.getElementById('radarChart'), {
+    type: 'radar',
+    data: {
+      labels: DOMAIN_LABELS,
+      datasets: [{
+        label: 'Your 4I Profile',
+        data: normalized,
+        backgroundColor: 'rgba(37,99,235,0.15)',
+        borderColor: '#2563eb',
+        borderWidth: 2,
+        pointBackgroundColor: '#2563eb',
+        pointRadius: 4,
+      }]
+    },
+    options: {
+      scales: { r: { min: 0, max: 100, ticks: { display: false }, grid: { color: '#e2e8f0' }, pointLabels: { font: { size: 13, weight: '600' }, color: '#475569' } } },
+      plugins: { legend: { display: false } },
+    }
+  });
+
+  // Archetype cards
+  const cardsEl = document.getElementById('results-cards');
+  const ranks = ['Primary Archetype', 'Secondary Archetype', 'Growth Archetype'];
+  topKeys.slice(0, 3).forEach((key, i) => {
+    const a = ARCHETYPE_DATA[key];
+    if (!a) return;
+    const pct = scoresRaw[i] ? Math.round((scoresRaw[i] / 15) * 100) : 0;
+    cardsEl.innerHTML += `
+      <div class="result-card">
+        <div class="result-rank">${ranks[i] || 'Archetype'}</div>
+        <span class="domain-badge ${a.badge}" style="margin-bottom:0.5rem; display:inline-block;">${a.domain}</span>
+        <h3>${a.name}</h3>
+        <div class="tagline">"${a.tagline}"</div>
+        <p>${a.desc}</p>
+        <div class="score-bar-wrap">
+          <div class="score-bar-label"><span>Alignment</span><span>${pct}%</span></div>
+          <div class="score-bar"><div class="score-bar-fill" style="width:${pct}%"></div></div>
+        </div>
+        <a href="${a.url}" class="card-link" style="display:block; margin-top:1rem;">Full profile & action plan →</a>
+      </div>
+    `;
+  });
+
+  // 4I domain bars
+  const domainsEl = document.getElementById('domain-bars');
+  const domKeys = ['interpretive', 'integrative', 'interpersonal', 'imaginative'];
+  const maxDom = Math.max(...domainsRaw) || 1;
+  DOMAIN_LABELS.forEach((label, i) => {
+    const pct = Math.round((domainsRaw[i] / maxDom) * 100);
+    domainsEl.innerHTML += `
+      <div>
+        <div style="display:flex; justify-content:space-between; font-size:0.85rem; font-weight:600; color:var(--navy); margin-bottom:0.3rem;">
+          <span>${label}</span><span style="color:var(--muted)">${pct}%</span>
+        </div>
+        <div style="height:10px; background:var(--border); border-radius:99px; overflow:hidden;">
+          <div style="height:100%; width:${pct}%; background:${DOMAIN_BORDERS[i]}; border-radius:99px; transition: width 1s ease;"></div>
+        </div>
+      </div>
+    `;
+  });
+
+  // Rebuild steps
+  const primary_data = ARCHETYPE_DATA[topKeys[0]];
+  if (primary_data) {
+    document.getElementById('rebuild-steps').innerHTML = `
+      <div class="action-step">
+        <div class="action-num">1</div>
+        <div class="action-step-content">
+          <h4>Choose your archetypes</h4>
+          <p>Your primary archetype is <strong>${primary_data.name}</strong>${topKeys[1] ? ` and your secondary is <strong>${ARCHETYPE_DATA[topKeys[1]]?.name || ''}</strong>` : ''}. These are where you'll build your deepest value. ${topKeys[2] ? `Use <strong>${ARCHETYPE_DATA[topKeys[2]]?.name || ''}</strong> as your growth archetype — the one to stretch toward.` : ''}</p>
+        </div>
+      </div>
+      <div class="action-step">
+        <div class="action-num">2</div>
+        <div class="action-step-content">
+          <h4>Build these 3 skills</h4>
+          <p>${primary_data.skills.slice(0, 3).join(' &bull; ')}</p>
+        </div>
+      </div>
+      <div class="action-step">
+        <div class="action-num">3</div>
+        <div class="action-step-content">
+          <h4>Install these 2 weekly habits</h4>
+          <p>${primary_data.habits.join('<br>')}</p>
+        </div>
+      </div>
+      <div class="action-step">
+        <div class="action-num">4</div>
+        <div class="action-step-content">
+          <h4>Set this boundary with AI</h4>
+          <p>${primary_data.ai_boundary}</p>
+        </div>
+      </div>
+    `;
+  }
+});
+</script>
+
+</body>
+</html>

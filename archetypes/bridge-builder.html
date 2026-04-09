@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Archetype — Human Work Spectrum</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+</head>
+<body>
+
+<nav>
+  <a class="nav-brand" href="../index.html">Human Work <span>Spectrum</span></a>
+  <div class="nav-links">
+    <a href="../archetypes.html" class="hide-sm">All Archetypes</a>
+    <a href="../quiz.html" class="nav-cta">Take the Assessment</a>
+  </div>
+</nav>
+
+<div class="archetype-hero">
+  <div class="container-sm">
+    <span id="ap-badge" class="domain-badge"></span>
+    <h1 id="ap-name"></h1>
+    <div class="tagline" id="ap-tagline"></div>
+    <p id="ap-desc"></p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container-sm">
+
+    <div class="detail-grid">
+      <div class="detail-card">
+        <h3>What They Protect</h3>
+        <ul id="ap-protects"></ul>
+      </div>
+      <div class="detail-card">
+        <h3>What They Produce</h3>
+        <ul id="ap-produces"></ul>
+      </div>
+      <div class="detail-card" style="grid-column: 1 / -1;">
+        <h3>What They Do</h3>
+        <ul id="ap-does"></ul>
+      </div>
+    </div>
+
+    <div class="detail-card" style="margin-top: 1.5rem; border-left: 4px solid var(--blue);">
+      <h3>Distinguishing Trait</h3>
+      <p id="ap-trait" style="font-size: 0.95rem; color: var(--text); line-height: 1.7; margin-top: 0.5rem;"></p>
+    </div>
+
+    <div class="action-steps">
+      <h3>Action Plan: How to Excel as This Archetype</h3>
+      <div id="ap-steps"></div>
+    </div>
+
+    <div style="margin-top: 2rem; padding: 1.5rem; background: var(--sky); border-radius: var(--radius);">
+      <h3 style="font-size: 0.85rem; font-weight: 700; color: var(--navy); margin-bottom: 0.75rem;">Related Archetypes</h3>
+      <div id="ap-related"></div>
+    </div>
+
+    <div style="text-align: center; margin-top: 3rem;">
+      <a href="../quiz.html" class="btn btn-primary">Take the Assessment to See Your Archetypes →</a>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <p>Human Work Spectrum &mdash; Based on <em>After the Grind</em> by Andrew Perkins &nbsp;|&nbsp; <a href="https://afterthegrind.ai" target="_blank">afterthegrind.ai</a></p>
+</footer>
+
+<script src="../js/archetype-page.js"></script>
+<script>
+// PAGE DATA — override per archetype
+window.ARCHETYPE_PAGE = {
+  "name": "The Bridge Builder",
+  "domain": "Integrative",
+  "badge_class": "badge-integrative",
+  "tagline": "The best idea wins only after people can understand each other.",
+  "desc": "The Bridge Builder is a modern polymath. You integrate different disciplines, mental models, timelines, and priorities into one workable approach. Where silos produce friction and expensive rework, you produce interoperability and durable solutions. Your superpower is the ability to hold multiple frameworks in mind simultaneously \u2014 and find the synthesis that neither side could reach alone.",
+  "protects": [
+    "Shared reality",
+    "Cross-functional coherence"
+  ],
+  "produces": [
+    "Integration",
+    "Interoperability",
+    "Durable solutions"
+  ],
+  "does": [
+    "Bridges disciplines, mental models, timelines, and vocabularies",
+    "Creates conceptual alignment across teams with different priorities",
+    "Unlocks interdisciplinary innovation by finding unexpected connections",
+    "Translates frameworks from one domain into the language of another",
+    "Identifies when teams are solving different versions of the same problem"
+  ],
+  "trait": "Can hold multiple conflicting frameworks in mind at once without collapsing into one. The Bridge Builder doesn't pick a side \u2014 they find the synthesis. Often described as the person who 'finally made this make sense' in retrospect.",
+  "steps": [
+    {
+      "title": "Develop cross-disciplinary literacy",
+      "body": "Read one thing per week from a field entirely outside your own. Not to become an expert \u2014 to collect mental models. The Bridge Builder's power comes from the breadth of frameworks available to draw from."
+    },
+    {
+      "title": "Practice framework mapping",
+      "body": "When you're in a cross-functional meeting, take notes on the framework each side is using. What assumptions are they making? What does success mean in their mental model? The translation opportunity lives in the gap between those answers."
+    },
+    {
+      "title": "Seek out the intersections",
+      "body": "Look for projects where at least two disciplines need to work together and aren't quite clicking. Volunteer to sit in that gap. This is where Bridge Builders create disproportionate value."
+    },
+    {
+      "title": "Set your AI boundary",
+      "body": "AI can surface connections between datasets and flag where terminology overlaps across domains. You decide which connections are meaningful, which are superficial, and how to explain them in ways both sides can act on."
+    }
+  ],
+  "related": [
+    {
+      "name": "The Architect",
+      "url": "architect.html"
+    },
+    {
+      "name": "The Orchestrator",
+      "url": "orchestrator.html"
+    },
+    {
+      "name": "The Translator",
+      "url": "translator.html"
+    }
+  ]
+};
+</script>
+</body>
+</html>

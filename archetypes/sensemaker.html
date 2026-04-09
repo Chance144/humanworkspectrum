@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Archetype — Human Work Spectrum</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+</head>
+<body>
+
+<nav>
+  <a class="nav-brand" href="../index.html">Human Work <span>Spectrum</span></a>
+  <div class="nav-links">
+    <a href="../archetypes.html" class="hide-sm">All Archetypes</a>
+    <a href="../quiz.html" class="nav-cta">Take the Assessment</a>
+  </div>
+</nav>
+
+<div class="archetype-hero">
+  <div class="container-sm">
+    <span id="ap-badge" class="domain-badge"></span>
+    <h1 id="ap-name"></h1>
+    <div class="tagline" id="ap-tagline"></div>
+    <p id="ap-desc"></p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container-sm">
+
+    <div class="detail-grid">
+      <div class="detail-card">
+        <h3>What They Protect</h3>
+        <ul id="ap-protects"></ul>
+      </div>
+      <div class="detail-card">
+        <h3>What They Produce</h3>
+        <ul id="ap-produces"></ul>
+      </div>
+      <div class="detail-card" style="grid-column: 1 / -1;">
+        <h3>What They Do</h3>
+        <ul id="ap-does"></ul>
+      </div>
+    </div>
+
+    <div class="detail-card" style="margin-top: 1.5rem; border-left: 4px solid var(--blue);">
+      <h3>Distinguishing Trait</h3>
+      <p id="ap-trait" style="font-size: 0.95rem; color: var(--text); line-height: 1.7; margin-top: 0.5rem;"></p>
+    </div>
+
+    <div class="action-steps">
+      <h3>Action Plan: How to Excel as This Archetype</h3>
+      <div id="ap-steps"></div>
+    </div>
+
+    <div style="margin-top: 2rem; padding: 1.5rem; background: var(--sky); border-radius: var(--radius);">
+      <h3 style="font-size: 0.85rem; font-weight: 700; color: var(--navy); margin-bottom: 0.75rem;">Related Archetypes</h3>
+      <div id="ap-related"></div>
+    </div>
+
+    <div style="text-align: center; margin-top: 3rem;">
+      <a href="../quiz.html" class="btn btn-primary">Take the Assessment to See Your Archetypes →</a>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <p>Human Work Spectrum &mdash; Based on <em>After the Grind</em> by Andrew Perkins &nbsp;|&nbsp; <a href="https://afterthegrind.ai" target="_blank">afterthegrind.ai</a></p>
+</footer>
+
+<script src="../js/archetype-page.js"></script>
+<script>
+// PAGE DATA — override per archetype
+window.ARCHETYPE_PAGE = {
+  "name": "The Sensemaker",
+  "domain": "Interpretive",
+  "badge_class": "badge-interpretive",
+  "tagline": "The AI summary is confident. But is it right?",
+  "desc": "The Sensemaker is the cognitive ballast that keeps teams from drifting. You create the space for thinking that the pace of AI output threatens to eliminate. You surface invisible assumptions, ask the questions everyone else skips, and ground decisions in values and context \u2014 not just data. In a world of abundant, confident, fast answers, the Sensemaker is the one who slows down enough to ask whether the answer is right.",
+  "protects": [
+    "Wisdom",
+    "Reality",
+    "Good judgment"
+  ],
+  "produces": [
+    "Interpretation",
+    "Clarity",
+    "Better questions",
+    "Responsible next steps"
+  ],
+  "does": [
+    "Creates temporal and cognitive space for teams to actually think",
+    "Surfaces invisible assumptions embedded in data, models, and outputs",
+    "Grounds decisions in values and context, not just pattern-matching",
+    "Asks the questions that everyone else is moving too fast to ask",
+    "Identifies when a confident answer is solving the wrong problem"
+  ],
+  "trait": "Defined by intentionality. The Sensemaker doesn't accept the pace that AI output sets \u2014 they set their own. They treat cognitive slowdown as a professional skill, not a weakness. And they understand that more information does not automatically create more clarity.",
+  "steps": [
+    {
+      "title": "Install a pre-decision pause",
+      "body": "Before any team decision, name the assumptions being made out loud. Write them down. Ask: what would have to be true for this to be wrong? This practice alone catches more errors than most quality reviews."
+    },
+    {
+      "title": "Practice first principles thinking",
+      "body": "For any major question, start with: what is the purpose? What is the actual reality? What are the trade-offs? Don't start from the AI output \u2014 start from the problem. Let the output inform, not determine."
+    },
+    {
+      "title": "Audit your own acceptance rate",
+      "body": "Weekly: pick one AI output you accepted this week and go back and examine it. What did you take on faith? What assumption did it embed that you didn't notice? The Sensemaker who regularly audits their own thinking gets better at catching errors in real time."
+    },
+    {
+      "title": "Set your AI boundary",
+      "body": "AI generates answers. You generate the questions worth asking \u2014 and you decide which answers are worth acting on. The most dangerous moment in AI-assisted work is the moment when no one is asking whether the output is right."
+    }
+  ],
+  "related": [
+    {
+      "name": "The Translator",
+      "url": "translator.html"
+    },
+    {
+      "name": "The Reflective Futurist",
+      "url": "futurist.html"
+    },
+    {
+      "name": "The Signal Architect",
+      "url": "signal-architect.html"
+    }
+  ]
+};
+</script>
+</body>
+</html>
