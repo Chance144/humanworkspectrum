@@ -315,9 +315,9 @@ async function downloadPDF() {
     
     // Force desktop-width layout for capture
     const clone = el.cloneNode(true);
-    clone.style.cssText = 'width:1100px; padding:40px 60px; background:#f8fafc; position:absolute; left:-9999px; top:0;';
+    clone.style.cssText = 'width:1000px; padding:30px 40px; background:#f8fafc; position:absolute; left:-9999px; top:0;';
     
-    // Fix radar chart — clone won't have the canvas rendered, so grab the original
+    // Fix radar chart
     const origCanvas = el.querySelector('canvas');
     if (origCanvas) {
       const cloneCanvasDiv = clone.querySelector('canvas')?.parentElement;
@@ -333,23 +333,22 @@ async function downloadPDF() {
     document.body.appendChild(clone);
     
     const canvas = await html2canvas(clone, {
-      scale: 2,
+      scale: 1.5,
       useCORS: true,
       backgroundColor: '#f8fafc',
-      width: 1100,
-      windowWidth: 1100,
+      width: 1000,
+      windowWidth: 1000,
     });
     
     document.body.removeChild(clone);
     
     const { jsPDF } = window.jspdf;
-    // Letter size: 215.9mm x 279.4mm
     const pdf = new jsPDF('p', 'mm', 'letter');
     
     const pageWidth = 215.9;
     const pageHeight = 279.4;
-    const margin = 12;
-    const headerHeight = 10;
+    const margin = 8;
+    const headerHeight = 8;
     const usableWidth = pageWidth - (margin * 2);
     const usableHeight = pageHeight - headerHeight - margin;
     
@@ -357,26 +356,22 @@ async function downloadPDF() {
     let imgWidth = usableWidth;
     let imgHeight = usableWidth * imgRatio;
     
-    // Scale to fit on one page
     if (imgHeight > usableHeight) {
       const scale = usableHeight / imgHeight;
       imgWidth = imgWidth * scale;
       imgHeight = usableHeight;
     }
     
-    // Center horizontally
     const xOffset = margin + (usableWidth - imgWidth) / 2;
     
-    // Header
-    pdf.setFontSize(8);
+    pdf.setFontSize(7);
     pdf.setTextColor(148, 163, 184);
-    pdf.text('humanworkspectrum.com  |  Based on "After the Grind" by Andrew Perkins', pageWidth / 2, 7, { align: 'center' });
+    pdf.text('humanworkspectrum.com  |  Based on "After the Grind" by Andrew Perkins', pageWidth / 2, 5, { align: 'center' });
     
-    // Content
-    const imgData = canvas.toDataURL('image/png');
-    pdf.addImage(imgData, 'PNG', xOffset, headerHeight, imgWidth, imgHeight);
+    // Use JPEG compression instead of PNG
+    const imgData = canvas.toDataURL('image/jpeg', 0.85);
+    pdf.addImage(imgData, 'JPEG', xOffset, headerHeight, imgWidth, imgHeight, undefined, 'FAST');
     
-    // Get archetype name for filename
     const topKeys = (new URLSearchParams(window.location.search).get('top') || '').split(',');
     const archName = ARCHETYPE_DATA[topKeys[0]]?.name?.replace(/\s+/g, '-') || 'results';
     
