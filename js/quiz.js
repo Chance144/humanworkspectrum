@@ -256,6 +256,20 @@ function showResults() {
   ranked.forEach(r => { domainScores[r.domain] = (domainScores[r.domain] || 0) + r.score; });
   const maxDomain = Math.max(...Object.values(domainScores)) || 1;
 
+  // Save results to database (fire and forget)
+  try {
+    fetch('/api/results', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        topArchetype: ranked[0]?.key || 'unknown',
+        top3: ranked.slice(0, 3).map(r => ({ key: r.key, name: r.name, score: r.score })),
+        scores: Object.fromEntries(ranked.map(r => [r.key, r.score])),
+        domains: domainScores,
+      })
+    }).catch(() => {}); // Silent fail — don't block results
+  } catch(e) {}
+
   // Build results params and redirect
   const params = new URLSearchParams();
   params.set('top', ranked.slice(0, 3).map(r => r.key).join(','));
