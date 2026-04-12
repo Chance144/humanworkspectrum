@@ -347,30 +347,49 @@ async function downloadPDF() {
     
     const pageWidth = 215.9;
     const pageHeight = 279.4;
-    const margin = 8;
+    const margin = 6;
     const headerHeight = 8;
     const usableWidth = pageWidth - (margin * 2);
-    const usableHeight = pageHeight - headerHeight - margin;
     
     const imgRatio = canvas.height / canvas.width;
-    let imgWidth = usableWidth;
-    let imgHeight = usableWidth * imgRatio;
-    
-    if (imgHeight > usableHeight) {
-      const scale = usableHeight / imgHeight;
-      imgWidth = imgWidth * scale;
-      imgHeight = usableHeight;
-    }
-    
-    const xOffset = margin + (usableWidth - imgWidth) / 2;
+    const imgWidth = usableWidth;
+    const imgHeight = usableWidth * imgRatio;
     
     pdf.setFontSize(7);
     pdf.setTextColor(148, 163, 184);
     pdf.text('humanworkspectrum.com  |  Based on "After the Grind" by Andrew Perkins', pageWidth / 2, 5, { align: 'center' });
     
-    // Use JPEG compression instead of PNG
     const imgData = canvas.toDataURL('image/jpeg', 0.85);
-    pdf.addImage(imgData, 'JPEG', xOffset, headerHeight, imgWidth, imgHeight, undefined, 'FAST');
+    
+    if (imgHeight > pageHeight - headerHeight - margin) {
+      // Content is taller than one page — split across pages
+      const pxPerMm = canvas.width / imgWidth;
+      const pageContentHeight = pageHeight - headerHeight - margin;
+      const pageContentPx = Math.floor(pageContentHeight * pxPerMm);
+      let yPx = 0;
+      let pageNum = 0;
+      
+      while (yPx < canvas.height) {
+        if (pageNum > 0) pdf.addPage('letter', 'p');
+        
+        // Slice the canvas for this page
+        const sliceHeight = Math.min(pageContentPx, canvas.height - yPx);
+        const sliceCanvas = document.createElement('canvas');
+        sliceCanvas.width = canvas.width;
+        sliceCanvas.height = sliceHeight;
+        const ctx = sliceCanvas.getContext('2d');
+        ctx.drawImage(canvas, 0, yPx, canvas.width, sliceHeight, 0, 0, canvas.width, sliceHeight);
+        
+        const sliceData = sliceCanvas.toDataURL('image/jpeg', 0.85);
+        const sliceMmHeight = sliceHeight / pxPerMm;
+        pdf.addImage(sliceData, 'JPEG', margin, headerHeight, usableWidth, sliceMmHeight, undefined, 'FAST');
+        
+        yPx += sliceHeight;
+        pageNum++;
+      }
+    } else {
+      pdf.addImage(imgData, 'JPEG', margin, headerHeight, imgWidth, imgHeight, undefined, 'FAST');
+    }
     
     const topKeys = (new URLSearchParams(window.location.search).get('top') || '').split(',');
     const archName = ARCHETYPE_DATA[topKeys[0]]?.name?.replace(/\s+/g, '-') || 'results';
