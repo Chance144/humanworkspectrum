@@ -7,6 +7,8 @@
   <link rel="stylesheet" href="css/style.css">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
 
@@ -18,6 +20,7 @@
   </div>
 </nav>
 
+<div id="pdf-capture">
 <div class="results-hero">
   <div id="results-eyebrow" style="font-size:0.8rem; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color: var(--blue-lt); margin-bottom: 0.75rem;">Your Results</div>
   <h1 id="results-headline">You are...</h1>
@@ -42,6 +45,8 @@
       <div id="domain-bars" style="display: flex; flex-direction: column; gap: 1rem; max-width: 560px;"></div>
     </div>
 
+</div><!-- end pdf-capture -->
+
     <!-- NEXT STEPS -->
     <div style="margin-top: 3.5rem; background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 2rem;">
       <h3 style="font-size: 1rem; font-weight: 700; color: var(--navy); margin-bottom: 1.25rem;">Your 4-Step Personal Rebuild</h3>
@@ -51,7 +56,8 @@
     <!-- CTA -->
     <div style="text-align: center; margin-top: 3rem;">
       <p style="color: var(--slate); font-size: 0.9rem; margin-bottom: 1.25rem;">Want to go deeper? The full framework is in the book.</p>
-      <a href="https://www.amazon.com/dp/B0GHT7DN7F" target="_blank" class="btn btn-primary" style="margin-right: 0.75rem;">Get the Book →</a>
+      <button onclick="downloadPDF()" class="btn btn-primary" style="margin-right: 0.75rem;">📄 Download Your Results (PDF)</button>
+      <a href="https://www.amazon.com/dp/B0GHT7DN7F" target="_blank" class="btn" style="background: var(--border); color: var(--slate); margin-right: 0.75rem;">Get the Book →</a>
       <a href="quiz.html" class="btn" style="background: var(--border); color: var(--slate);">Retake Assessment</a>
     </div>
 
@@ -298,6 +304,71 @@ document.addEventListener('DOMContentLoaded', function() {
     `;
   }
 });
+
+async function downloadPDF() {
+  const btn = event.target;
+  btn.textContent = 'Generating...';
+  btn.disabled = true;
+
+  try {
+    const el = document.getElementById('pdf-capture');
+    
+    // Temporarily adjust for capture
+    el.style.width = '800px';
+    el.style.background = '#f8fafc';
+    
+    const canvas = await html2canvas(el, {
+      scale: 2,
+      useCORS: true,
+      backgroundColor: '#f8fafc',
+      width: 800,
+      windowWidth: 800,
+    });
+    
+    // Reset
+    el.style.width = '';
+    el.style.background = '';
+    
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF('p', 'mm', 'letter');
+    
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const pageHeight = pdf.internal.pageSize.getHeight();
+    const margin = 10;
+    const usableWidth = pageWidth - (margin * 2);
+    
+    const imgRatio = canvas.height / canvas.width;
+    const imgHeight = usableWidth * imgRatio;
+    
+    // Add header
+    pdf.setFontSize(8);
+    pdf.setTextColor(148, 163, 184);
+    pdf.text('humanworkspectrum.com | Based on "After the Grind" by Andrew Perkins', margin, 6);
+    
+    // Add the captured content
+    const imgData = canvas.toDataURL('image/png');
+    
+    if (imgHeight > pageHeight - 15) {
+      // Scale to fit one page
+      const scale = (pageHeight - 15) / imgHeight;
+      pdf.addImage(imgData, 'PNG', margin, 8, usableWidth * scale, imgHeight * scale);
+    } else {
+      pdf.addImage(imgData, 'PNG', margin, 8, usableWidth, imgHeight);
+    }
+    
+    // Get archetype name for filename
+    const topKeys = (new URLSearchParams(window.location.search).get('top') || '').split(',');
+    const archName = ARCHETYPE_DATA[topKeys[0]]?.name?.replace(/\s+/g, '-') || 'results';
+    
+    pdf.save('Human-Work-Spectrum-' + archName + '.pdf');
+  } catch(e) {
+    console.error(e);
+    alert('PDF generation failed. Try a screenshot instead.');
+  }
+  
+  btn.textContent = '\ud83d\udcc4 Download Your Results (PDF)';
+  btn.disabled = false;
+}
 </script>
 
 </body>
