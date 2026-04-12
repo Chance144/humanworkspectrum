@@ -313,48 +313,68 @@ async function downloadPDF() {
   try {
     const el = document.getElementById('pdf-capture');
     
-    // Temporarily adjust for capture
-    el.style.width = '800px';
-    el.style.background = '#f8fafc';
+    // Force desktop-width layout for capture
+    const clone = el.cloneNode(true);
+    clone.style.cssText = 'width:1100px; padding:40px 60px; background:#f8fafc; position:absolute; left:-9999px; top:0;';
     
-    const canvas = await html2canvas(el, {
+    // Fix radar chart — clone won't have the canvas rendered, so grab the original
+    const origCanvas = el.querySelector('canvas');
+    if (origCanvas) {
+      const cloneCanvasDiv = clone.querySelector('canvas')?.parentElement;
+      if (cloneCanvasDiv) {
+        const img = document.createElement('img');
+        img.src = origCanvas.toDataURL('image/png');
+        img.style.cssText = 'width:100%; max-width:360px; display:block; margin:0 auto;';
+        cloneCanvasDiv.innerHTML = '';
+        cloneCanvasDiv.appendChild(img);
+      }
+    }
+    
+    document.body.appendChild(clone);
+    
+    const canvas = await html2canvas(clone, {
       scale: 2,
       useCORS: true,
       backgroundColor: '#f8fafc',
-      width: 800,
-      windowWidth: 800,
+      width: 1100,
+      windowWidth: 1100,
     });
     
-    // Reset
-    el.style.width = '';
-    el.style.background = '';
+    document.body.removeChild(clone);
     
     const { jsPDF } = window.jspdf;
+    // Letter size: 215.9mm x 279.4mm
     const pdf = new jsPDF('p', 'mm', 'letter');
     
-    const pageWidth = pdf.internal.pageSize.getWidth();
-    const pageHeight = pdf.internal.pageSize.getHeight();
-    const margin = 10;
+    const pageWidth = 215.9;
+    const pageHeight = 279.4;
+    const margin = 12;
+    const headerHeight = 10;
     const usableWidth = pageWidth - (margin * 2);
+    const usableHeight = pageHeight - headerHeight - margin;
     
     const imgRatio = canvas.height / canvas.width;
-    const imgHeight = usableWidth * imgRatio;
+    let imgWidth = usableWidth;
+    let imgHeight = usableWidth * imgRatio;
     
-    // Add header
+    // Scale to fit on one page
+    if (imgHeight > usableHeight) {
+      const scale = usableHeight / imgHeight;
+      imgWidth = imgWidth * scale;
+      imgHeight = usableHeight;
+    }
+    
+    // Center horizontally
+    const xOffset = margin + (usableWidth - imgWidth) / 2;
+    
+    // Header
     pdf.setFontSize(8);
     pdf.setTextColor(148, 163, 184);
-    pdf.text('humanworkspectrum.com | Based on "After the Grind" by Andrew Perkins', margin, 6);
+    pdf.text('humanworkspectrum.com  |  Based on "After the Grind" by Andrew Perkins', pageWidth / 2, 7, { align: 'center' });
     
-    // Add the captured content
+    // Content
     const imgData = canvas.toDataURL('image/png');
-    
-    if (imgHeight > pageHeight - 15) {
-      // Scale to fit one page
-      const scale = (pageHeight - 15) / imgHeight;
-      pdf.addImage(imgData, 'PNG', margin, 8, usableWidth * scale, imgHeight * scale);
-    } else {
-      pdf.addImage(imgData, 'PNG', margin, 8, usableWidth, imgHeight);
-    }
+    pdf.addImage(imgData, 'PNG', xOffset, headerHeight, imgWidth, imgHeight);
     
     // Get archetype name for filename
     const topKeys = (new URLSearchParams(window.location.search).get('top') || '').split(',');
