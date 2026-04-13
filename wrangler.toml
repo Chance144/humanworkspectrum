@@ -2,8 +2,9 @@ name = "humanworkspectrum"
 main = "worker.js"
 compatibility_date = "2024-01-01"
 
-# KV binding is configured in Cloudflare dashboard
-# No need to duplicate here when using dashboard bindings
+[[kv_namespaces]]
+binding = "QUIZ_RESULTS"
+id = "8bbddf845e8b47eea4ec0b29eaeca4fe"
 
 [assets]
 directory = "./"
