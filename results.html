@@ -315,7 +315,13 @@ async function downloadPDF() {
     
     // Force desktop-width layout for capture
     const clone = el.cloneNode(true);
-    clone.style.cssText = 'width:1000px; padding:30px 40px; background:#f8fafc; position:absolute; left:-9999px; top:0;';
+    clone.style.cssText = 'width:1400px; padding:40px 60px; background:#f8fafc; position:absolute; left:-9999px; top:0; font-size:16px; line-height:1.6; letter-spacing:normal; word-spacing:normal;';
+    // Force all text inside to have normal spacing
+    clone.querySelectorAll('*').forEach(function(el) {
+      el.style.letterSpacing = 'normal';
+      el.style.wordSpacing = 'normal';
+      el.style.lineHeight = '1.5';
+    });
     
     // Fix radar chart
     const origCanvas = el.querySelector('canvas');
@@ -336,8 +342,8 @@ async function downloadPDF() {
       scale: 1.5,
       useCORS: true,
       backgroundColor: '#f8fafc',
-      width: 1000,
-      windowWidth: 1000,
+      width: 1400,
+      windowWidth: 1400,
     });
     
     document.body.removeChild(clone);
