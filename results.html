@@ -7,7 +7,6 @@
   <link rel="stylesheet" href="css/style.css">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
@@ -311,101 +310,142 @@ async function downloadPDF() {
   btn.disabled = true;
 
   try {
-    const el = document.getElementById('pdf-capture');
-    
-    // Force desktop-width layout for capture
-    const clone = el.cloneNode(true);
-    clone.style.cssText = 'width:1400px; padding:40px 60px; background:#f8fafc; position:absolute; left:-9999px; top:0; font-size:16px; line-height:1.6; letter-spacing:normal; word-spacing:normal;';
-    // Force all text inside to have normal spacing
-    clone.querySelectorAll('*').forEach(function(el) {
-      el.style.letterSpacing = 'normal';
-      el.style.wordSpacing = 'normal';
-      el.style.lineHeight = '1.5';
-    });
-    
-    // Fix radar chart
-    const origCanvas = el.querySelector('canvas');
-    if (origCanvas) {
-      const cloneCanvasDiv = clone.querySelector('canvas')?.parentElement;
-      if (cloneCanvasDiv) {
-        const img = document.createElement('img');
-        img.src = origCanvas.toDataURL('image/png');
-        img.style.cssText = 'width:100%; max-width:360px; display:block; margin:0 auto;';
-        cloneCanvasDiv.innerHTML = '';
-        cloneCanvasDiv.appendChild(img);
-      }
-    }
-    
-    document.body.appendChild(clone);
-    
-    const canvas = await html2canvas(clone, {
-      scale: 1.5,
-      useCORS: true,
-      backgroundColor: '#f8fafc',
-      width: 1400,
-      windowWidth: 1400,
-    });
-    
-    document.body.removeChild(clone);
-    
+    const topKeys = (new URLSearchParams(window.location.search).get('top') || '').split(',').filter(Boolean);
+    const scoresRaw = (new URLSearchParams(window.location.search).get('scores') || '').split(',').map(Number);
+    const domainsRaw = (new URLSearchParams(window.location.search).get('domains') || '0,0,0,0').split(',').map(Number);
+    const primary = ARCHETYPE_DATA[topKeys[0]];
+    const domLabels = ['Interpretive', 'Integrative', 'Interpersonal', 'Imaginative'];
+    const domColors = [[37,99,235], [13,148,136], [124,58,237], [217,119,6]];
+    const maxDom = Math.max(...domainsRaw) || 1;
+
     const { jsPDF } = window.jspdf;
     const pdf = new jsPDF('p', 'mm', 'letter');
-    
-    const pageWidth = 215.9;
-    const pageHeight = 279.4;
-    const margin = 6;
-    const headerHeight = 8;
-    const usableWidth = pageWidth - (margin * 2);
-    
-    const imgRatio = canvas.height / canvas.width;
-    const imgWidth = usableWidth;
-    const imgHeight = usableWidth * imgRatio;
-    
+    const pw = 215.9;
+    const m = 15; // margin
+    const cw = pw - m * 2; // content width
+    let y = 12;
+
+    // --- Header ---
     pdf.setFontSize(7);
     pdf.setTextColor(148, 163, 184);
-    pdf.text('humanworkspectrum.com  |  Based on "After the Grind" by Andrew Perkins', pageWidth / 2, 5, { align: 'center' });
-    
-    const imgData = canvas.toDataURL('image/jpeg', 0.85);
-    
-    if (imgHeight > pageHeight - headerHeight - margin) {
-      // Content is taller than one page — split across pages
-      const pxPerMm = canvas.width / imgWidth;
-      const pageContentHeight = pageHeight - headerHeight - margin;
-      const pageContentPx = Math.floor(pageContentHeight * pxPerMm);
-      let yPx = 0;
-      let pageNum = 0;
-      
-      while (yPx < canvas.height) {
-        if (pageNum > 0) pdf.addPage('letter', 'p');
-        
-        // Slice the canvas for this page
-        const sliceHeight = Math.min(pageContentPx, canvas.height - yPx);
-        const sliceCanvas = document.createElement('canvas');
-        sliceCanvas.width = canvas.width;
-        sliceCanvas.height = sliceHeight;
-        const ctx = sliceCanvas.getContext('2d');
-        ctx.drawImage(canvas, 0, yPx, canvas.width, sliceHeight, 0, 0, canvas.width, sliceHeight);
-        
-        const sliceData = sliceCanvas.toDataURL('image/jpeg', 0.85);
-        const sliceMmHeight = sliceHeight / pxPerMm;
-        pdf.addImage(sliceData, 'JPEG', margin, headerHeight, usableWidth, sliceMmHeight, undefined, 'FAST');
-        
-        yPx += sliceHeight;
-        pageNum++;
-      }
-    } else {
-      pdf.addImage(imgData, 'JPEG', margin, headerHeight, imgWidth, imgHeight, undefined, 'FAST');
+    pdf.text('humanworkspectrum.com  |  Based on "After the Grind" by Andrew Perkins', pw / 2, y, { align: 'center' });
+    y += 8;
+
+    // --- Title bar ---
+    pdf.setFillColor(30, 41, 59);
+    pdf.rect(m, y, cw, 28, 'F');
+    pdf.setFontSize(10);
+    pdf.setTextColor(148, 180, 255);
+    pdf.text('YOUR RESULTS', pw / 2, y + 8, { align: 'center' });
+    pdf.setFontSize(22);
+    pdf.setTextColor(255, 255, 255);
+    pdf.text('You are ' + (primary ? primary.name : 'Unknown'), pw / 2, y + 20, { align: 'center' });
+    y += 34;
+
+    // --- Radar chart as image ---
+    const radarCanvas = document.getElementById('radarChart');
+    if (radarCanvas) {
+      const chartImg = radarCanvas.toDataURL('image/png');
+      const chartSize = 65;
+      pdf.addImage(chartImg, 'PNG', (pw - chartSize) / 2, y, chartSize, chartSize);
+      y += chartSize + 6;
     }
-    
-    const topKeys = (new URLSearchParams(window.location.search).get('top') || '').split(',');
-    const archName = ARCHETYPE_DATA[topKeys[0]]?.name?.replace(/\s+/g, '-') || 'results';
-    
+
+    // --- Top Archetypes ---
+    pdf.setFontSize(9);
+    pdf.setTextColor(100, 116, 139);
+    pdf.text('YOUR TOP ARCHETYPES', pw / 2, y, { align: 'center' });
+    y += 6;
+
+    const ranks = ['Primary Archetype', 'Secondary Archetype', 'Growth Archetype'];
+    topKeys.slice(0, 3).forEach(function(key, i) {
+      const a = ARCHETYPE_DATA[key];
+      if (!a) return;
+      const pct = scoresRaw[i] ? Math.round((scoresRaw[i] / 15) * 100) : 0;
+
+      // Card background
+      pdf.setFillColor(245, 247, 250);
+      pdf.roundedRect(m, y, cw, 30, 2, 2, 'F');
+
+      // Rank label
+      pdf.setFontSize(7);
+      pdf.setTextColor(100, 116, 139);
+      pdf.text(ranks[i] || '', m + 4, y + 5);
+
+      // Domain badge
+      var badgeColor = a.domain === 'interpretive' ? [37,99,235] : a.domain === 'integrative' ? [13,148,136] : a.domain === 'interpersonal' ? [124,58,237] : [217,119,6];
+      pdf.setFillColor(badgeColor[0], badgeColor[1], badgeColor[2]);
+      pdf.roundedRect(m + 4, y + 7, 22, 5, 1, 1, 'F');
+      pdf.setFontSize(6);
+      pdf.setTextColor(255, 255, 255);
+      pdf.text(a.domain, m + 15, y + 10.5, { align: 'center' });
+
+      // Name
+      pdf.setFontSize(13);
+      pdf.setTextColor(30, 41, 59);
+      pdf.text(a.name, m + 4, y + 17);
+
+      // Tagline
+      pdf.setFontSize(8);
+      pdf.setTextColor(100, 116, 139);
+      pdf.text('"' + a.tagline + '"', m + 4, y + 22);
+
+      // Alignment bar
+      var barX = m + cw - 50;
+      pdf.setFontSize(7);
+      pdf.setTextColor(100, 116, 139);
+      pdf.text('Alignment: ' + pct + '%', barX, y + 5);
+      pdf.setFillColor(226, 232, 240);
+      pdf.roundedRect(barX, y + 7, 46, 3, 1, 1, 'F');
+      pdf.setFillColor(37, 99, 235);
+      pdf.roundedRect(barX, y + 7, 46 * pct / 100, 3, 1, 1, 'F');
+
+      y += 33;
+    });
+
+    y += 2;
+
+    // --- 4I Profile ---
+    pdf.setFontSize(9);
+    pdf.setTextColor(100, 116, 139);
+    pdf.text('YOUR 4I PROFILE', pw / 2, y, { align: 'center' });
+    y += 6;
+
+    domLabels.forEach(function(label, i) {
+      var pct = Math.round((domainsRaw[i] / maxDom) * 100);
+
+      pdf.setFontSize(9);
+      pdf.setTextColor(30, 41, 59);
+      pdf.text(label, m, y + 4);
+      pdf.setTextColor(148, 163, 184);
+      pdf.text(pct + '%', m + cw, y + 4, { align: 'right' });
+
+      // Bar background
+      pdf.setFillColor(226, 232, 240);
+      pdf.roundedRect(m, y + 6, cw, 4, 1, 1, 'F');
+      // Bar fill
+      pdf.setFillColor(domColors[i][0], domColors[i][1], domColors[i][2]);
+      pdf.roundedRect(m, y + 6, cw * pct / 100, 4, 1, 1, 'F');
+
+      y += 14;
+    });
+
+    y += 4;
+
+    // --- Footer ---
+    pdf.setFontSize(8);
+    pdf.setTextColor(148, 163, 184);
+    pdf.text('Take the full assessment at humanworkspectrum.com', pw / 2, y, { align: 'center' });
+    y += 5;
+    pdf.text('Read the book: "After the Grind" by Andrew Perkins  |  amazon.com/dp/B0GHT7DN7F', pw / 2, y, { align: 'center' });
+
+    const archName = primary?.name?.replace(/\s+/g, '-') || 'results';
     pdf.save('Human-Work-Spectrum-' + archName + '.pdf');
   } catch(e) {
     console.error(e);
-    alert('PDF generation failed. Try a screenshot instead.');
+    alert('PDF generation failed: ' + e.message);
   }
-  
+
   btn.textContent = '\ud83d\udcc4 Download Your Results (PDF)';
   btn.disabled = false;
 }
