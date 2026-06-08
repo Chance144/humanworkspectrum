@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Spectrum - Human Work Spectrum</title>
+  <meta name="description" content="A personal training dashboard for applying the Human Work Spectrum from After the Grind.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+</head>
+<body>
+
+<nav>
+  <a class="nav-brand" href="index.html">Human Work <span>Spectrum</span></a>
+  <div class="nav-links">
+    <a href="quiz.html">Assessment</a>
+    <a href="archetypes.html" class="hide-sm">Archetypes</a>
+    <a href="https://afterthegrind.ai" class="hide-sm">The Book</a>
+  </div>
+</nav>
+
+<header class="app-hero">
+  <div class="container">
+    <div class="app-eyebrow">Personal training dashboard</div>
+    <h1 id="app-title">My Spectrum</h1>
+    <p id="app-subtitle">Turn your assessment result into a working plan for building human value after the grind.</p>
+    <div class="app-actions">
+      <a href="quiz.html" class="btn btn-primary">Take or Retake Assessment</a>
+      <a href="https://www.amazon.com/dp/B0GHT7DN7F" target="_blank" class="btn btn-outline">Get the Book</a>
+    </div>
+  </div>
+</header>
+
+<main class="section app-section">
+  <div class="container">
+    <div id="no-result" class="app-empty" hidden>
+      <div class="section-label">No saved result yet</div>
+      <h2>Start with the assessment.</h2>
+      <p>The app needs your top archetypes before it can build a roadmap. Take the assessment, then come back here for your practice plan.</p>
+      <a href="quiz.html" class="btn btn-primary">Take the Assessment</a>
+    </div>
+
+    <div id="app-dashboard" hidden>
+      <section class="app-grid app-grid-top">
+        <article class="app-panel app-primary">
+          <div class="section-label">Primary archetype</div>
+          <h2 id="primary-name"></h2>
+          <p id="primary-tagline" class="app-tagline"></p>
+          <p id="primary-desc"></p>
+          <div id="primary-meta" class="app-chip-row"></div>
+        </article>
+
+        <article class="app-panel">
+          <div class="section-label">4I profile</div>
+          <div id="domain-profile" class="app-domain-list"></div>
+        </article>
+      </section>
+
+      <section class="app-panel app-roadmap">
+        <div class="app-panel-head">
+          <div>
+            <div class="section-label">30-day rebuild</div>
+            <h2>Your next working plan</h2>
+          </div>
+          <button id="reset-progress" class="btn-mini" type="button">Reset Progress</button>
+        </div>
+        <div id="roadmap-steps" class="roadmap-steps"></div>
+      </section>
+
+      <section class="app-grid">
+        <article class="app-panel">
+          <div class="section-label">Daily practice</div>
+          <h2 id="daily-title"></h2>
+          <p id="daily-body"></p>
+          <button id="complete-daily" class="btn btn-primary" type="button">Mark Today Complete</button>
+          <p id="daily-status" class="app-small"></p>
+        </article>
+
+        <article class="app-panel">
+          <div class="section-label">AI boundary</div>
+          <h2>What not to outsource</h2>
+          <p id="ai-boundary"></p>
+          <div class="boundary-box">
+            <strong>This week's test:</strong>
+            <span id="boundary-test"></span>
+          </div>
+        </article>
+      </section>
+
+      <section class="app-grid">
+        <article class="app-panel">
+          <div class="section-label">Supporting archetypes</div>
+          <div id="supporting-archetypes" class="supporting-list"></div>
+        </article>
+
+        <article class="app-panel">
+          <div class="section-label">Book path</div>
+          <h2>What to read next</h2>
+          <div id="book-path" class="book-path"></div>
+        </article>
+      </section>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <p>Human Work Spectrum &mdash; Based on <em>After the Grind</em> by Andrew Perkins &nbsp;|&nbsp; <a href="https://afterthegrind.ai" target="_blank">afterthegrind.ai</a></p>
+</footer>
+
+<script src="js/app.js"></script>
+</body>
+</html>

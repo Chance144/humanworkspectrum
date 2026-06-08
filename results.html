@@ -14,6 +14,7 @@
 <nav>
   <a class="nav-brand" href="index.html">Human Work <span>Spectrum</span></a>
   <div class="nav-links">
+    <a href="app.html">My Spectrum</a>
     <a href="quiz.html">Retake</a>
     <a href="archetypes.html" class="hide-sm">All Archetypes</a>
   </div>
@@ -56,6 +57,7 @@
     <div style="text-align: center; margin-top: 3rem;">
       <p style="color: var(--slate); font-size: 0.9rem; margin-bottom: 1.25rem;">Want to go deeper? The full framework is in the book.</p>
       <button onclick="downloadPDF()" class="btn btn-primary" style="margin-right: 0.75rem;">📄 Download Your Results (PDF)</button>
+      <a href="app.html" class="btn btn-primary" style="margin-right: 0.75rem;">Open My Spectrum</a>
       <a href="https://www.amazon.com/dp/B0GHT7DN7F" target="_blank" class="btn" style="background: var(--border); color: var(--slate); margin-right: 0.75rem;">Get the Book →</a>
       <a href="quiz.html" class="btn" style="background: var(--border); color: var(--slate);">Retake Assessment</a>
     </div>
@@ -201,6 +203,26 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   const primary = ARCHETYPE_DATA[topKeys[0]];
+  try {
+    const resultRecord = {
+      completedAt: new Date().toISOString(),
+      top: topKeys.slice(0, 3),
+      scores: scoresRaw.slice(0, 3),
+      domains: {
+        interpretive: domainsRaw[0] || 0,
+        integrative: domainsRaw[1] || 0,
+        interpersonal: domainsRaw[2] || 0,
+        imaginative: domainsRaw[3] || 0,
+      },
+    };
+    localStorage.setItem('hws.latestResult', JSON.stringify(resultRecord));
+    const history = JSON.parse(localStorage.getItem('hws.resultHistory') || '[]');
+    if (!history.length || JSON.stringify(history[0].top) !== JSON.stringify(resultRecord.top)) {
+      history.unshift(resultRecord);
+      localStorage.setItem('hws.resultHistory', JSON.stringify(history.slice(0, 5)));
+    }
+  } catch(e) {}
+
   document.getElementById('results-headline').textContent = primary ? `You are ${primary.name}` : "Your results";
   document.getElementById('results-sub').textContent = primary ? `Your primary archetype, with ${topKeys.length > 1 ? (topKeys.length - 1) + ' supporting archetype' + (topKeys.length > 2 ? 's' : '') : 'strong focus'} identified.` : '';
 

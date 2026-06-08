@@ -275,6 +275,22 @@ function showResults() {
   params.set('top', ranked.slice(0, 3).map(r => r.key).join(','));
   params.set('scores', ranked.slice(0, 3).map(r => r.score).join(','));
   params.set('domains', Object.values(domainScores).join(','));
+
+  const resultRecord = {
+    completedAt: new Date().toISOString(),
+    top: ranked.slice(0, 3).map(r => r.key),
+    scores: ranked.slice(0, 3).map(r => r.score),
+    allScores: Object.fromEntries(ranked.map(r => [r.key, r.score])),
+    domains: domainScores,
+  };
+
+  try {
+    localStorage.setItem('hws.latestResult', JSON.stringify(resultRecord));
+    const history = JSON.parse(localStorage.getItem('hws.resultHistory') || '[]');
+    history.unshift(resultRecord);
+    localStorage.setItem('hws.resultHistory', JSON.stringify(history.slice(0, 5)));
+  } catch(e) {}
+
   window.location.href = `results.html?${params.toString()}`;
 }
 
