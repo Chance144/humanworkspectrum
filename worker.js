@@ -3,6 +3,18 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
+    // Do not expose deployment/source files from the static asset binding.
+    const blockedAssetPaths = new Set([
+      "/worker.js",
+      "/wrangler.toml",
+      "/package.json",
+      "/package-lock.json",
+      "/.env",
+    ]);
+    if (blockedAssetPaths.has(url.pathname) || url.pathname.startsWith("/.")) {
+      return new Response("Not found", { status: 404 });
+    }
+
     // API routes
     if (url.pathname === "/api/results") {
       if (request.method === "OPTIONS") {
@@ -66,8 +78,11 @@ async function handlePost(request, env) {
 }
 
 async function handleGet(request, env) {
+  if (!env.RESULTS_API_TOKEN) {
+    return jsonResponse({ error: "server not configured" }, 500);
+  }
   const auth = request.headers.get("Authorization");
-  if (auth !== "Bearer afterthegrind2026") {
+  if (auth !== `Bearer ${env.RESULTS_API_TOKEN}`) {
     return jsonResponse({ error: "unauthorized" }, 401);
   }
 
