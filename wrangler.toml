@@ -8,3 +8,5 @@ id = "8bbddf845e8b47eea4ec0b29eaeca4fe"
 
 [assets]
 directory = "./"
+binding = "ASSETS"
+run_worker_first = ["/worker.js", "/wrangler.toml", "/package*.json", "/.*"]
