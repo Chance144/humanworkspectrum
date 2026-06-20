@@ -1,0 +1,10 @@
+worker.js
+wrangler.toml
+package.json
+package-lock.json
+.env
+.dev.vars
+.assetsignore
+.gitignore
+.git/**
+.wrangler/**
